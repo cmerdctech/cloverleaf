@@ -1,0 +1,17 @@
+#!/bin/bash
+
+pushd $clTestScriptsDir/parameterFiles/cloverMoodleSource/current > /dev/null
+
+combineFiles.js --source=./querySets/skewedSqlQueries --dest=zCombinedComponentsTmp/skewedSqlQueries.js -f --template="{\"query\":\"<!itemString!>\"}"
+
+combineFiles.js --source=./querySets/primary --dest=zCombinedComponentsTmp/primary.json -f --template="{\"query\":\"<!itemString!>\"}"
+combineFiles.js --source=./querySets/secondary --dest=zCombinedComponentsTmp/secondary.json -f --template="{\"query\":\"<!itemString!>\"}"
+combineFiles.js --source=./querySets/secondRound --dest=zCombinedComponentsTmp/secondRound.json -f --template="{\"query\":\"<!itemString!>\"}"
+combineFiles.js --source=./transformFunctions --dest=zCombinedComponentsTmp/transformFunctions.json -f --template="\"indexFunction\":\"<!itemString!>\""
+
+bbedit zCombinedComponentsTmp/primary.json
+bbedit zCombinedComponentsTmp/secondary.json
+bbedit zCombinedComponentsTmp/secondRound.json
+bbedit zCombinedComponentsTmp/transformFunctions.json
+
+popd > /dev/null

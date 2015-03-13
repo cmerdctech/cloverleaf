@@ -1,0 +1,104 @@
+#!/bin/bash
+
+: <<'UNPARSEDCOMMENT'
+
+
+
+(function(item) {
+	if (item.overwrite=='true') {
+		return '"overwrite":"all"';
+	}
+	else {
+		return '"overwrite":[]'
+	}
+})
+
+
+
+
+
+UNPARSEDCOMMENT
+
+pushd $clTestScriptsDir/parameterFiles/cloverMoodleSource/current > /dev/null;
+
+combinedSetsDir="zCombinedComponentsTmp"
+
+destFileDirPath="$testLinkDir/testDataDest";
+schoolSpecsDir="buildSchoolSpecs";
+componentsDir="buildComponents";
+
+
+shopt -s extglob
+
+sqlAuth="qubuntuMysqlAuth.json";
+destType="mysql"
+
+if [[ "-e" == "$1" ]]; then
+sqlAuth="elearningMsyqlAuth.json"
+fi
+if [[ "-e" == "$2" ]]; then
+sqlAuth="elearningMsyqlAuth.json"
+fi
+
+if [[ "-f" == "$1" ]]; then
+destType="file"
+fi
+if [[ "-f" == "$2" ]]; then
+destType="file"
+fi
+
+schoolNameList[0]='albany010';
+schoolNameList[1]='barnesville010';
+schoolNameList[2]='pact010';
+schoolNameList[3]='pact013';
+schoolNameList[4]='tcu010';
+schoolNameList[5]='tcu020';
+schoolNameList[6]='tcu030';
+schoolNameList[7]='tcu040';
+
+echo -e "\n\n"`date` " Starting Run ============================";
+
+combineFiles.js --source=./querySets/primary --dest=$combinedSetsDir/primary.json -f --template="{\"query\":\"<!itemString!>\"}" -q
+combineFiles.js --source=./querySets/secondary --dest=$combinedSetsDir/secondary.json -f --template="{\"query\":\"<!itemString!>\"}" -q
+combineFiles.js --source=./querySets/secondRound --dest=$combinedSetsDir/secondRound.json -f --template="{\"query\":\"<!itemString!>\"}" -q
+
+combineFiles.js --source=./querySets/skewed1 --dest=$combinedSetsDir/skewed1.json -f --template="{\"query\":\"<!itemString!>\"}" -q
+combineFiles.js --source=./querySets/skewed2 --dest=$combinedSetsDir/skewed2.json -f --template="{\"query\":\"<!itemString!>\"}" -q
+
+
+for schoolName in ${schoolNameList[*]}; do
+
+templateReplace.js buildTemplates/cloverMoodle.txt assembledParameterSets/$schoolName.json -f  \
+ --mainExtractQueries="buildComponents/switchQuerySet.js" \
+ --overwrite="(function(item) { if (item.overwriteFlag) { return '\"overwrite\":\"all\"'; } else { return '\"overwrite\":[]' } })" \
+ --primaryMainExtractQueries="$combinedSetsDir/primary.json" \
+ --secondaryMainExtractQueries="$combinedSetsDir/secondary.json" \
+ --skewed1="$combinedSetsDir/skewed1.json" \
+ --skewed2="$combinedSetsDir/skewed2.json" \
+ --secondRoundQueries="$combinedSetsDir/secondRound.json" \
+ --schoolInfo="$schoolSpecsDir/$schoolName.json" \
+ --courseGroupFunctions="$componentsDir/courseGroupFunctions" \
+ --destType="$destType" \
+ --destFileDirPath="$destFileDirPath" \
+ --sqlAuth=$sqlAuth
+
+done
+
+
+if [[ "file" == "$destType" ]]; then
+
+if [[ "-e" == "$1" ]]; then
+tmp="(ignored mysqlAuth spec)"
+fi
+if [[ "-e" == "$2" ]]; then
+tmp="(ignored mysqlAuth spec)"
+fi
+
+echo -e "Created for file output to $destFileDirPath\n$tmp"
+else
+echo -e "Created for mysql output to $sqlAuth"
+fi
+
+echo -e `date` " Ending Run ============================\n\n";
+
+popd > /dev/null;

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cloverleaf="node /home/lightningpipe/lpProd/services/system/cloverleaf/cloverleaf.js"
+
+$cloverleaf  --file="testProd.json"

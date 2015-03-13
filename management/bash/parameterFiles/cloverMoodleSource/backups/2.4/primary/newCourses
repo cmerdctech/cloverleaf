@@ -1,0 +1,24 @@
+create table NewCourses as
+select distinct
+'v2.4 new courses primary' as version,
+
+c.courseDesc || '_' || ss.lastName || '_' || ss.firstName as courseName,
+c.courseAbbreviation || '_' || ss.publicId as shortName,
+ss.courseNumber || '_' || ss.publicId as courseId,
+c.courseDesc as summary,
+
+'' as template,
+ss.schoolCode as categoryPath,
+ss.schoolCode as categoryId,
+ss.schoolCode as categoryName,
+ss.schoolCode as categoryDescription,
+'' as startDate,
+'' as visibility
+
+from Course as c
+left join Section as s on s.courseNumber=c.courseNumber
+left join Section_Staff as ss on ss.sectionNumber=s.sectionNumber
+
+where trim(courseName) <> ''
+and trim(shortName) <> ''
+and trim(courseId) <> ''

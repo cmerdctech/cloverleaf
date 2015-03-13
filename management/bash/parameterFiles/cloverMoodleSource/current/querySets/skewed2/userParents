@@ -1,0 +1,31 @@
+create table Users as
+select distinct
+'v2.14 SKEWED user parents primary and secondary' as version,
+
+j.personId as personId,
+j.userName || '_' || substr(j.personId, 0, 4) as userName,
+'Te$tUs3r' as password,
+j.contactMiddleName as firstName,
+j.contactFullName as lastName,
+'tmp@tmp.com' as email,
+
+'' as city,
+'' as street,
+'' as phone1,
+'' as phone2,
+'' as grade,
+'' as gradYear,
+
+j.schoolCode as schoolCode,
+'PARENT' as department,
+'US' as country,
+'' as description
+
+from Address_Contact as j
+
+where trim(personId) <> ''
+and trim(userName) <> ''
+and trim(password) <> ''
+and trim(firstName) <> ''
+and trim(lastName) <> ''
+and trim(email) <> ''

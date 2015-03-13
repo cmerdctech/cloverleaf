@@ -1,0 +1,20 @@
+insert into Enrollments
+select distinct
+'v2.5 enrollment students primary' as version,
+
+ss.publicId as courseId,
+sst.studentUniqueIdentifier as personId,
+'student' as role,
+
+c.courseAbbreviation || '_' ||  s.schoolYearBegin || '-' ||  s.schoolYearEnd || '_' ||  s.termAbbreviation as 'classGroup'
+
+
+
+from Course as c
+left join Section_Staff as ss on ss.courseNumber=c.courseNumber
+left join Section as s on s.sectionNumber=ss.sectionNumber
+left join Section_Student as sst on sst.sectionNumber=s.sectionNumber
+
+where trim(personId) <> ''
+and trim(personId) <> ''
+and trim(classGroup) <> ''

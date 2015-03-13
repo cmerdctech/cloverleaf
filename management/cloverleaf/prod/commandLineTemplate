@@ -1,0 +1,26 @@
+$cloverProd 
+http://api.lightningpipe.org/uff/1.0/districts/0487/schools/0487_010/segments/Guardian#Data?sendFlatSpecs=true
+0487/GuardianTest.txt 
+-h
+
+
+
+
+$cloverProd 
+http://api.lightningpipe.org/uff/1.0/districts/2769/schools/2769_010/segments/Schedule#Data?sendFlatSpecs=true
+2769/ScheduleTest.txt 
+-h
+
+
+
+
+$cloverProd  http://api.lightningpipe.org/uff/1.0/districts/2769/schools/2769_010/segments/Student_Enrolled#Data?sendFlatSpecs=true Student_EnrolledTest.txt  -h
+
+
+
+
+
+# mkdir /Volumes/qubuntuFileServer/cmerdc/lightningPipe/testResultstmp
+# cd /Volumes/qubuntuFileServer/cmerdc/lightningPipe/testResultstmp 
+# $cloverProd -f /Volumes/qubuntuFileServer/cmerdc/lightningPipe/system/management/cloverleaf/jmcRealGetAllSegments.js
+

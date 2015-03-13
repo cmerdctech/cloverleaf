@@ -1,0 +1,184 @@
+{
+    "input": [  
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Address_Contact?sendFlatSpecs=true","destination":"Address_Contact", "path":"Data.Address_Contact", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Course?sendFlatSpecs=true","destination":"Course", "path":"Data.Course", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Section_Staff?sendFlatSpecs=true","destination":"Section_Staff", "path":"Data.Section_Staff", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Section_Student?sendFlatSpecs=true","destination":"Section_Student", "path":"Data.Section_Student", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Section?sendFlatSpecs=true","destination":"Section", "path":"Data.Section", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Student_Base?sendFlatSpecs=true","destination":"Student_Base", "path":"Data.Student_Base", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/Student_Enrollment?sendFlatSpecs=true","destination":"Student_Enrollment", "path":"Data.Student_Enrollment", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/<!district!>/schools/<!school!>/segments/JMC_User?sendFlatSpecs=true","destination":"JMC_User", "path":"Data.JMC_User", "switches":{"header":false, "append":true}}
+
+],
+
+    "transform": [ {
+        
+        "type":"applyFunction",
+		"parameters":{
+		"label":"generate Section_Staff.publicId",
+		"input":[
+			{"name":"Address_Contact"},
+			{"name":"Course"},
+			{"name":"Section_Staff"},
+			{"name":"Section_Student"},
+			{"name":"Section"},
+			{"name":"Student_Base"},
+			{"name":"Student_Enrollment"},
+			{"name":"JMC_User"}
+		],
+		"process":[
+		
+			{
+			"type":"map",
+			"specs":
+			{
+				"sourceTableName":"Section_Staff",
+				"destTableName":"Section_Staff",  
+				"functionString":"function(item, inx, entire){item.publicId=qtools.hash(item.staffUniqueIdentifier); return item;}"
+			}
+			},
+			{
+			"type":"map",
+			"specs":
+			{
+				"sourceTableName":"Address_Contact",
+				"destTableName":"Address_Contact",  
+				"functionString":"function(item, inx, entire){item.personId=qtools.newId(); item.userName=item.contactFullName.replace(/\\W+/g, '_'); return item;}"
+			}
+			}
+		],
+		"export":[
+			{"tableName":"Address_Contact", "as":"Address_Contact"},
+			{"tableName":"Course", "as":"Course"},
+			{"tableName":"Section_Staff", "as":"Section_Staff"},
+			{"tableName":"Section_Student", "as":"Section_Student"},
+			{"tableName":"Section", "as":"Section"},
+			{"tableName":"Student_Base", "as":"Student_Base"},
+			{"tableName":"Student_Enrollment", "as":"Student_Enrollment"},
+			{"tableName":"JMC_User", "as":"JMC_User"}
+		]
+		}
+
+    
+    },
+    {
+        
+        "type":"sqlizer2",
+		"parameters":{
+		"label":"main extract",
+		"fileName":"mainExtract",
+		"input":[
+			{"name":"Address_Contact"},
+			{"name":"Course"},
+			{"name":"Section_Staff"},
+			{"name":"Section_Student"},
+			{"name":"Section"},
+			{"name":"Student_Base"},
+			{"name":"Student_Enrollment"},
+			{"name":"JMC_User"}
+		],
+		"process":[
+
+<!mainExtractQueries!>
+
+		],
+		"export":[
+			{"tableName":"NewCourses", "as":"NewCourses"},
+			{"tableName":"Enrollments", "as":"Enrollments"},
+			{"tableName":"Users", "as":"Users"},
+			{"tableName":"Parents", "as":"Parents"}
+		]
+		}
+    },{
+        
+        "type":"applyFunction",
+		"parameters":{
+		"label":"concatenate courseGroup into strings",
+		"input":[
+			{"name":"NewCourses.txt"},
+			{"name":"Enrollments.txt"},
+			{"name":"Users.txt"},
+			{"name":"Parents"}
+		],
+		"process":[
+			{
+			"type":"summarize",
+			"specs":
+			{
+				"sourceTableName":"Enrollments",
+				"destTableName":"classGroupNames", 
+"indexFunction":"function(item, inx, entire) {  /* v2.10 courseGroup Index Function */  return (item.courseId) } ",
+"summaryFunction":"function(item, inx, entire) {  /* v2.10 courseGroup Summary Function */  var termString = '',   alreadyIn=[],   outObj=item[0];     for (var i = 0, len = item.length; i < len; i++) {   var element = item[i];      if (element.role.toLowerCase()!='editingTeacher'.toLowerCase()){    continue;   }      if (alreadyIn.indexOf(element.classGroup)<0){   termString += element.classGroup + ',';   alreadyIn.push(element.classGroup);   }  }  termString = termString.replace(/,$/, '');   outObj.classGroup=termString;  return outObj; }"
+
+			}
+			},
+		
+			{
+			"type":"map",
+			"specs":
+			{
+				"sourceTableName":"Section_Staff",
+				"destTableName":"Section_Staff",  
+				"functionString":"function(item, inx, entire){item.publicId=qtools.hash(item.staffUniqueIdentifier); return item}"
+			}
+			}
+		],
+		"export":[
+			{"tableName":"NewCourses", "as":"NewCourses"},
+			{"tableName":"Enrollments", "as":"Enrollments"},
+			{"tableName":"Users", "as":"Users"},
+			{"tableName":"Parents", "as":"Parents"},
+			{"tableName":"classGroupNames", "as":"classGroupNames"}
+		]
+		}
+
+    
+    },   {
+        
+        "type":"sqlizer2",
+		"parameters":{
+		"label":"apply courseGroup and remove dupes",
+		"fileName":"cleanupTables",
+		"input":[
+			{"name":"NewCourses"},
+			{"name":"Enrollments"},
+			{"name":"Users"},
+			{"name":"Parents"},
+			{"name":"classGroupNames"}
+		],
+		"process":[
+		
+<!secondRoundQueries!>
+
+		],
+		"export":[
+			{"tableName":"NewCourses", "as":"NewCourses"},
+			{"tableName":"EnrollmentsDistinct", "as":"Enrollments"},
+			{"tableName":"Users", "as":"Users"},
+			{"tableName":"Parents", "as":"Parents"}
+		]
+		}
+    }
+    ],
+
+    "output": {
+        "type": "<!destType!>",
+        "context": {
+            "parentPath": "<!destFileDirPath!>/<!databaseName!>/",
+            "databaseName":"<!databaseName!>",
+			"authParmsFile":"<!sqlAuth!>"
+        },
+        
+		 "control":{
+			"overwriteReminderUnused":[{"tableName":"NewCourses"}, {"tableName":"Enrollments"}],
+			<!overwrite!>
+		 }
+    }
+}

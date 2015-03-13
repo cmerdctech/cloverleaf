@@ -1,0 +1,12 @@
+(function(){
+
+return {
+	district:'Barnesville010',
+	school:'010',
+	type:'primary',
+	databaseName:'zzTq_Barnesville_010',
+	version:"v2.13",
+	overwriteFlag:true
+}
+
+})()

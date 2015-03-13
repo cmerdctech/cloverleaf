@@ -1,0 +1,41 @@
+#!/bin/bash
+
+shopt -s extglob
+
+
+cloverProd="node /home/lightningpipe/lpProd/services/system/cloverleaf/cloverleaf.js"
+
+//note:  I have not found a way to make TARGETDIR reflect the specs in the cloverleaf parameter blocks
+TARGETDIR="/home/lightningpipe/mountPoint/destDirDemo"
+
+schoolNameList=(\
+'Albany' \
+'Barnesville' \
+'Browns-Valley' \
+'Clinton-Graceville' \
+'Hancock' \
+'Hawley' \
+'Morris' \
+'Paynesville' \
+'Ulen-Hitterdahl' \
+'Upsala' \
+'WCE' \
+'Wheaton' \
+)
+
+echo -e "\n\n"`date` " Starting Run ============================";
+
+for schoolName in ${schoolNameList[*]}; do
+
+rm $TARGETDIR/$schoolName/Guardians.txt;
+rm $TARGETDIR/$schoolName/Students.txt;
+rm $TARGETDIR/$schoolName/Schedules.txt;
+#leave behind stuff that random nutters put in their
+
+
+
+$cloverProd  --file=assembledParameterSets/$schoolName.json
+
+done
+
+echo -e `date` " Ending Run ============================\n\n";

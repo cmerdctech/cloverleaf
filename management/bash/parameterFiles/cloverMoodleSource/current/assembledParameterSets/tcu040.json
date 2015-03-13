@@ -1,0 +1,194 @@
+{
+    "input": [  
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Address_Contact?sendFlatSpecs=true","destination":"Address_Contact", "path":"Data.Address_Contact", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Course?sendFlatSpecs=true","destination":"Course", "path":"Data.Course", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Section_Staff?sendFlatSpecs=true","destination":"Section_Staff", "path":"Data.Section_Staff", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Section_Student?sendFlatSpecs=true","destination":"Section_Student", "path":"Data.Section_Student", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Section?sendFlatSpecs=true","destination":"Section", "path":"Data.Section", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Student_Base?sendFlatSpecs=true","destination":"Student_Base", "path":"Data.Student_Base", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/Student_Enrollment?sendFlatSpecs=true","destination":"Student_Enrollment", "path":"Data.Student_Enrollment", "switches":{"header":false, "append":true}},
+
+    {"source":"http://127.0.0.1:8000/uff/1.0/districts/TriCityUnited/schools/040/segments/JMC_User?sendFlatSpecs=true","destination":"JMC_User", "path":"Data.JMC_User", "switches":{"header":false, "append":true}}
+
+],
+
+    "transform": [ {
+        
+        "type":"applyFunction",
+		"parameters":{
+		"label":"generate Section_Staff.publicId",
+		"input":[
+			{"name":"Address_Contact"},
+			{"name":"Course"},
+			{"name":"Section_Staff"},
+			{"name":"Section_Student"},
+			{"name":"Section"},
+			{"name":"Student_Base"},
+			{"name":"Student_Enrollment"},
+			{"name":"JMC_User"}
+		],
+		"process":[
+		
+			{
+			"type":"map",
+			"specs":
+			{
+				"sourceTableName":"Section_Staff",
+				"destTableName":"Section_Staff",  
+				"functionString":"function(item, inx, entire){item.publicId=qtools.hash(item.staffUniqueIdentifier); return item;}"
+			}
+			},
+			{
+			"type":"map",
+			"specs":
+			{
+				"sourceTableName":"Address_Contact",
+				"destTableName":"Address_Contact",  
+				"functionString":"function(item, inx, entire){item.personId=qtools.newId(); item.userName=item.contactFullName.replace(/\\W+/g, '_'); return item;}"
+			}
+			}
+		],
+		"export":[
+			{"tableName":"Address_Contact", "as":"Address_Contact"},
+			{"tableName":"Course", "as":"Course"},
+			{"tableName":"Section_Staff", "as":"Section_Staff"},
+			{"tableName":"Section_Student", "as":"Section_Student"},
+			{"tableName":"Section", "as":"Section"},
+			{"tableName":"Student_Base", "as":"Student_Base"},
+			{"tableName":"Student_Enrollment", "as":"Student_Enrollment"},
+			{"tableName":"JMC_User", "as":"JMC_User"}
+		]
+		}
+
+    
+    },
+    {
+        
+        "type":"sqlizer2",
+		"parameters":{
+		"label":"main extract",
+		"fileName":"mainExtract",
+		"input":[
+			{"name":"Address_Contact"},
+			{"name":"Course"},
+			{"name":"Section_Staff"},
+			{"name":"Section_Student"},
+			{"name":"Section"},
+			{"name":"Student_Base"},
+			{"name":"Student_Enrollment"},
+			{"name":"JMC_User"}
+		],
+		"process":[
+
+{"query":"create table Enrollments as select distinct 'v2.14 enrollment parents secondary' as version,  c.courseNumber || '_' || ss.publicId as courseId, ac.personId as personId, 'parent' as role,  s.termAbbreviation || '_' || s.beginningPeriodNumber as 'classGroup'  from Address_Contact as ac left join Section_Student as sst on sst.studentUniqueIdentifier=ac.studentUniqueIdentifier left join Section as s on (s.sectionNumber=sst.sectionNumber and sst.courseNumber=s.courseNumber and s.schoolCode=sst.schoolCode) left join Section_Staff as ss on (ss.sectionNumber=s.sectionNumber and sst.courseNumber=s.courseNumber and ss.schoolCode=sst.schoolCode) left join Course as c on (c.courseNumber=s.courseNumber and sst.courseNumber=s.courseNumber and c.schoolCode=sst.schoolCode)  where trim(personId) <> '' and trim(personId) <> '' and trim(classGroup) <> ''"},
+{"query":"insert into Enrollments select distinct 'v2.14 enrollment staff secondary' as version,  c.courseNumber || '_' || ss.publicId as courseId, ss.staffUniqueIdentifier as personId,  case when ss.PrimaryInstructorFlag='Y' then 'editingteacher'  else 'teacher' end as role,  s.termAbbreviation || '_' || s.beginningPeriodNumber as 'classGroup'  from Section_Staff as ss left join Section as s on (s.sectionNumber=ss.sectionNumber and ss.courseNumber=s.courseNumber and s.schoolCode=ss.schoolCode) left join Course as c on (c.courseNumber=s.courseNumber and ss.courseNumber=s.courseNumber and c.schoolCode=ss.schoolCode)  where trim(courseId) <> '' and trim(personId) <> '' and trim(classGroup) <> '' "},
+{"query":"insert into Enrollments select distinct 'v2.14 enrollment students secondary' as version,   c.courseNumber || '_' || ss.publicId as courseId, sst.studentUniqueIdentifier as personId, 'student' as role, s.termAbbreviation || '_' || s.beginningPeriodNumber as 'classGroup'  from Section_Student as sst left join Section as s on (s.sectionNumber=sst.sectionNumber and sst.courseNumber=s.courseNumber and s.schoolCode=sst.schoolCode) left join Section_Staff as ss on (ss.sectionNumber=s.sectionNumber and sst.courseNumber=s.courseNumber and ss.schoolCode=sst.schoolCode) left join Course as c on (c.courseNumber=s.courseNumber and sst.courseNumber=s.courseNumber and c.schoolCode=sst.schoolCode)  where trim(courseId) <> '' and trim(personId) <> '' and trim(classGroup) <> ''"},
+{"query":"create table NewCourses as select distinct 'v2.14 new courses secondary' as version,  c.courseAbbreviation || '_' || ss.lastName || '_' || ss.firstName as courseName, c.courseAbbreviation || '_' || c.courseNumber || '_' || ss.publicId as shortName, c.courseNumber || '_' || ss.publicId as courseId, c.courseDesc as summary,  '' as template, '' as startDate, '' as visibility, ss.schoolCode as categoryPath, ss.schoolCode as categoryId, ss.schoolCode as categoryName, ss.schoolCode as categoryDescription  from Course as c left join Section as s on s.courseNumber=c.courseNumber left join Section_Staff as ss on (ss.sectionNumber=s.sectionNumber and ss.courseNumber=s.courseNumber)  where trim(courseName) <> '' and trim(shortName) <> '' and trim(courseId) <> ''"},
+{"query":"create table Parents as select distinct 'v2.14 parent primary' as version,  j.personId as personId, j.studentUniqueIdentifier as studentUniqueIdentifier, 'parent' as role  from Address_Contact as j  where trim(personId) <> '' and trim(studentUniqueIdentifier) <> ''"},
+{"query":"create table Users as select distinct 'v2.14 SKEWED user parents primary and secondary' as version,  j.personId as personId, j.userName || '_' || substr(j.personId, 0, 4) as userName, 'Te$tUs3r' as password, j.contactMiddleName as firstName, j.contactFullName as lastName, 'tmp@tmp.com' as email,  '' as city, '' as street, '' as phone1, '' as phone2, '' as grade, '' as gradYear,  j.schoolCode as schoolCode, 'PARENT' as department, 'US' as country, '' as description  from Address_Contact as j  where trim(personId) <> '' and trim(userName) <> '' and trim(password) <> '' and trim(firstName) <> '' and trim(lastName) <> '' and trim(email) <> '' "},
+{"query":"insert into Users select distinct 'v2.14 user staff primary and secondary' as version,  j.staffUniqueIdentifier as personId, j.staffUniqueIdentifier as userName, 'Te$tUs3r' as password, j.firstName as firstName, j.lastName as lastName, j.lastName || '_' || j.firstName || '@emailaddress.edu' as email,  '' as city, '' as street, '' as phone1, '' as phone2, '' as grade, '' as gradYear,  j.schoolCode as schoolCode, 'STAFF' as department, 'US' as country, '' as description  from JMC_User as j  where trim(personId) <> '' and trim(userName) <> '' and trim(password) <> '' and trim(firstName) <> '' and trim(lastName) <> '' and trim(email) <> '' "},
+{"query":"insert into Users select  distinct 'v2.14 user students secondary' as version,  sb.studentUniqueIdentifier as personId, sb.lastName || '_' || sb.firstName || '_' || substr(sb.studentUniqueIdentifier, 0, 4) as userName, 'Te$tUs3r' as password, sb.firstName as firstName, sb.lastName as lastName, sb.lastName || '_' || sb.firstName || '@emailadr.edu' as email, ac.city as city, ac.address1 as street, ac.contactPhone1 as phone1, ac.contactPhone2 as phone2, sb.gradeLevel as grade, sb.graduationYear as gradYear, sb.schoolCode as schoolCode, 'STUDENT' as department, 'US' as country, '' as description   from Student_Base as sb left join Address_Contact as ac on  (ac.studentUniqueIdentifier=sb.studentUniqueIdentifier and LOWER(ac.addressTypeCode)=LOWER('primary1'))  where trim(personId) <> '' and trim(userName) <> '' and trim(password) <> '' and trim(firstName) <> '' and trim(lastName) <> '' and trim(email) <> ''  "}
+
+
+		],
+		"export":[
+			{"tableName":"NewCourses", "as":"NewCourses"},
+			{"tableName":"Enrollments", "as":"Enrollments"},
+			{"tableName":"Users", "as":"Users"},
+			{"tableName":"Parents", "as":"Parents"}
+		]
+		}
+    },{
+        
+        "type":"applyFunction",
+		"parameters":{
+		"label":"concatenate courseGroup into strings",
+		"input":[
+			{"name":"NewCourses.txt"},
+			{"name":"Enrollments.txt"},
+			{"name":"Users.txt"},
+			{"name":"Parents"}
+		],
+		"process":[
+			{
+			"type":"summarize",
+			"specs":
+			{
+				"sourceTableName":"Enrollments",
+				"destTableName":"classGroupNames", 
+"indexFunction":"function(item, inx, entire) {  /* v2.10 courseGroup Index Function */  return (item.courseId) } ",
+"summaryFunction":"function(item, inx, entire) {  /* v2.10 courseGroup Summary Function */  var termString = '',   alreadyIn=[],   outObj=item[0];     for (var i = 0, len = item.length; i < len; i++) {   var element = item[i];      if (element.role.toLowerCase()!='editingTeacher'.toLowerCase()){    continue;   }      if (alreadyIn.indexOf(element.classGroup)<0){   termString += element.classGroup + ',';   alreadyIn.push(element.classGroup);   }  }  termString = termString.replace(/,$/, '');   outObj.classGroup=termString;  return outObj; }"
+
+			}
+			},
+		
+			{
+			"type":"map",
+			"specs":
+			{
+				"sourceTableName":"Section_Staff",
+				"destTableName":"Section_Staff",  
+				"functionString":"function(item, inx, entire){item.publicId=qtools.hash(item.staffUniqueIdentifier); return item}"
+			}
+			}
+		],
+		"export":[
+			{"tableName":"NewCourses", "as":"NewCourses"},
+			{"tableName":"Enrollments", "as":"Enrollments"},
+			{"tableName":"Users", "as":"Users"},
+			{"tableName":"Parents", "as":"Parents"},
+			{"tableName":"classGroupNames", "as":"classGroupNames"}
+		]
+		}
+
+    
+    },   {
+        
+        "type":"sqlizer2",
+		"parameters":{
+		"label":"apply courseGroup and remove dupes",
+		"fileName":"cleanupTables",
+		"input":[
+			{"name":"NewCourses"},
+			{"name":"Enrollments"},
+			{"name":"Users"},
+			{"name":"Parents"},
+			{"name":"classGroupNames"}
+		],
+		"process":[
+		
+{"query":"update Enrollments /* v2.14 update courseGroups secondRoundSql*/ set classGroup=(select classGroup from classGroupNames where Enrollments.courseId=classGroupNames.courseId)"},
+{"query":"create table /* v2.14 distinct enrollments secondRound */ EnrollmentsDistinct as select distinct * from Enrollments"}
+
+
+		],
+		"export":[
+			{"tableName":"NewCourses", "as":"NewCourses"},
+			{"tableName":"EnrollmentsDistinct", "as":"Enrollments"},
+			{"tableName":"Users", "as":"Users"},
+			{"tableName":"Parents", "as":"Parents"}
+		]
+		}
+    }
+    ],
+
+    "output": {
+        "type": "mysql",
+        "context": {
+            "parentPath": "/Users/tqwhite/testLinkpoint/testDataDest/zzTq_TriCityUnited/",
+            "databaseName":"zzTq_TriCityUnited",
+			"authParmsFile":"qubuntuMysqlAuth.json"
+        },
+        
+		 "control":{
+			"overwriteReminderUnused":[{"tableName":"NewCourses"}, {"tableName":"Enrollments"}],
+			"overwrite":[]
+		 }
+    }
+}

@@ -1,0 +1,12 @@
+(function(){
+
+return {
+	district:'PACT',
+	school:'013',
+	type:'secondary',
+	databaseName:'zzTq_PACT_013',
+	version:"v2.13",
+	overwriteFlag:true
+}
+
+})()

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+segment=$1
+school=$2
+district=$3
+
+
+if [[ -z "$1" ]]; then
+fileName="$clTestParametersDir/testJsonDemo.js"
+else
+fileName=$1
+fi
+
+
+if [[ -f "$clTestParametersDir/$fileName" ]]; then
+
+filePath="$clTestParametersDir/$fileName"
+
+elif [[ -f "$fileName" ]]; then
+filePath="$fileName"
+else
+echo -e "$fileName does not exist";
+exit 1;
+fi
+
+
+#$cloverleaf --file=$filePath --overrideParentPath=/Users/tqwhite/testLinkpoint/testDataDest/AlbanyJsondevEnvironment
+$cloverleaf  --file=$filePath --saveDB
+#$cloverleaf  --file=$filePath --verbose
+#$cloverleaf  --file=$filePath

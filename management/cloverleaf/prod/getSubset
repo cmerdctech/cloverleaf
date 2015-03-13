@@ -1,0 +1,27 @@
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Hancock/schools/020/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/Hancock/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Hancock/schools/020/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/Hancock/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Hancock/schools/020/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/Hancock/Students.txt -a
+
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/020/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/WCE/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/020/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/WCE/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/020/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/WCE/Students.txt -a
+
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/023/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/WCE/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/023/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/WCE/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/023/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/WCE/Students.txt -a
+
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/024/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/WCE/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/024/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/WCE/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/024/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/WCE/Students.txt -a
+
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/025/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/WCE/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/025/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/WCE/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/WCE/schools/025/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/WCE/Students.txt -a
+
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Wheaton/schools/001/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/Wheaton/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Wheaton/schools/001/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/Wheaton/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Wheaton/schools/001/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/Wheaton/Students.txt -a
+
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Wheaton/schools/002/segments/Guardian#Data?sendFlatSpecs=true $destDirProd/Wheaton/Guardians.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Wheaton/schools/002/segments/Schedule#Data?sendFlatSpecs=true $destDirProd/Wheaton/Schedules.txt -a
+$cloverProd http://api.lightningpipe.org/uff/1.0/districts/Wheaton/schools/002/segments/Student_Enrolled#Data?sendFlatSpecs=true $destDirProd/Wheaton/Students.txt -a

@@ -1,0 +1,33 @@
+insert into Users
+select  distinct
+'v2.12 user students secondary' as version,
+
+sb.studentUniqueIdentifier as personId,
+sb.lastName || '_' || sb.firstName || '_' || substr(sb.studentUniqueIdentifier, 0, 4) as userName,
+sb.lastName as password,
+sb.firstName as firstName,
+sb.lastName as lastName,
+sb.lastName || '_' || sb.firstName || '@emailadr.edu' as email,
+ac.city as city,
+ac.address1 as street,
+ac.contactPhone1 as phone1,
+ac.contactPhone2 as phone2,
+sb.gradeLevel as grade,
+sb.graduationYear as gradYear,
+sb.schoolCode as schoolCode,
+'STUDENT' as department,
+'US' as country,
+'' as description
+
+
+from Student_Base as sb
+left join Address_Contact as ac on 
+(ac.studentUniqueIdentifier=sb.studentUniqueIdentifier and LOWER(ac.addressTypeCode)=LOWER('primary1'))
+
+where trim(personId) <> ''
+and trim(userName) <> ''
+and trim(password) <> ''
+and trim(firstName) <> ''
+and trim(lastName) <> ''
+and trim(email) <> ''
+

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+echo -e "\
+usage: curlj URL, eg
+curlj http://127.0.0.1:8000/ping\
+";
+exit 1;
+else
+URL=$1
+fi
+
+curl -i -H "username:jmcPlans1" -H "password:123" $URL

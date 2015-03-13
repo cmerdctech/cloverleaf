@@ -1,0 +1,1 @@
+create table /* v2.9 distinct enrollments secondRound */ EnrollmentsDistinct as select distinct * from Enrollments

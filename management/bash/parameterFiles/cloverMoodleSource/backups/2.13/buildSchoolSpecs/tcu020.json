@@ -1,0 +1,12 @@
+(function(){
+
+return {
+	district:'TriCityUnited',
+	school:'020',
+	type:'skewed2',
+	databaseName:'zzTq_TriCityUnited',
+	version:"v2.13 020",
+	overwriteFlag:false
+}
+
+})()

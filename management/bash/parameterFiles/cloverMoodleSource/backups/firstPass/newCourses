@@ -1,0 +1,20 @@
+create table NewCourses as
+select 
+c.courseAbbreviation || '_' || ss.lastName as fullName,
+c.courseAbbreviation || '_' || c.courseNumber || '_' || ss.staffUniqueIdentifier as shortName,
+c.courseNumber || '_' || ss.staffUniqueIdentifier as personId,
+c.courseDesc as summary,
+'' as template,
+c.schoolCode as categoryPath,
+c.schoolCode as categoryId,
+c.schoolCode as categoryName,
+c.schoolCode as categoryDescription
+ 
+
+from Course as c
+left join Section as s on s.courseNumber=c.courseNumber
+left join Section_Staff as ss on ss.sectionNumber=s.sectionNumber
+
+where trim(fullName) <> ''
+and trim(shortName) <> ''
+and trim(personId) <> ''

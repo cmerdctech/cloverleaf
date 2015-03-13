@@ -1,0 +1,27 @@
+{
+    "input": [  
+
+<!urlList!>
+
+],
+
+    "transform": [],
+
+    "output": {
+        "type": "<!destType!>",
+        "context": {
+            "parentPath": "<!destFileDirPath!>/<!databaseName!>/<!schoolName!>/",
+            "header":false,
+            "fileExtension":".txt",
+            
+            "databaseName":"<!databaseName!>",
+			"authParmsFile":"<!sqlAuth!>"
+        },
+        
+		 "control":{
+			"overwriteReminderSelective":[{"tableName":"NewCourses"}, {"tableName":"Enrollments"}],
+			"overwriteReminderDoNone":[],
+			<!overwrite!>
+		 }
+    }
+}

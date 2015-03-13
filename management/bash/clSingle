@@ -1,0 +1,57 @@
+#!/bin/bash
+
+segment=$1
+school=$2
+district=$3
+
+
+if [[ -z "$4" ]]; then
+directoryName="$district"CmdLine
+else
+directoryName=$4
+fi
+
+
+
+
+if [[ -z "$testDestDir" ]]; then
+
+echo -e "\nUsage:\n\
+Environment variable: \$testDestDir is not defined.
+";
+exit 1; #error status
+fi
+
+if [[ -z "$1" ]]; then
+
+echo -e "\nUsage:\n\
+clSingle segmentName schoolName districtName\n\
+eg\n\
+clSingle Student_Enrolled 030 Albany\n\
+"
+exit 1; #error status
+
+else
+
+echo -e "\nStart Cloverleaf run  ==============";
+
+
+echo -e "\nclearing $district/$segment (for school $school)";
+rm $testDestDir/"$district"CmdLine/$segment.txt;
+
+echo -e "\ncloverleaf http://127.0.0.1:8000/uff/1.0/districts/$district/schools/$school/segments/$segment#Data?sendFlatSpecs=true \
+$testDestDir/$directoryName/$segment.txt -ah\n"
+
+$cloverleaf \
+http://127.0.0.1:8000/uff/1.0/districts/$district/schools/$school/segments/$segment#Data?sendFlatSpecs=true \
+$testDestDir/$directoryName/$segment.txt -ah
+
+echo -e "\nls -la $testDestDir/$directoryName;\n"
+ls -la $testDestDir/$directoryName;
+
+echo -e "\nDone  ==============\n";
+
+fi
+
+
+

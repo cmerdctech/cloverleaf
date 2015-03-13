@@ -1,0 +1,23 @@
+#!/bin/bash
+
+pushd $clTestScriptsDir/parameterFiles/cloverMoodleSource/current > /dev/null;
+
+combineFiles.js --source=./querySets/primary --dest=../zAssembledSetsTmp/primary.js -f --template="{\"query\":\"<!itemString!>\"}" -q
+combineFiles.js --source=./querySets/secondary --dest=../zAssembledSetsTmp/secondary.js -f --template="{\"query\":\"<!itemString!>\"}" -q
+combineFiles.js --source=./querySets/secondRound --dest=../zAssembledSetsTmp/secondRound.js -f --template="{\"query\":\"<!itemString!>\"}" -q
+
+sqlAuth="qubuntuMysqlAuth.json";
+schoolFileName="pact010";
+destFileDirPath="/Users/tqwhite/testLinkpoint/testDataDest";
+
+templateReplace.js buildTemplates/cloverMoodle.txt parameterSets/test.json -f  \
+ --mainExtractQueries="(function(item){if (item.type=='secondary') {return item.secondaryMainExtractQueries;} else { return item.primaryMainExtractQueries;}})" \
+ --primaryMainExtractQueries="../zAssembledSetsTmp/primary.js" \
+ --secondaryMainExtractQueries="../zAssembledSetsTmp/secondary.js" \
+ --secondRoundQueries="../zAssembledSetsTmp/secondRound.js" \
+ --schoolInfo="buildSchoolSpecs/$schoolFileName.js" \
+ --destType="file" \
+ --destFileDirPath="$destFileDirPath" \
+ --sqlAuth=$sqlAuth
+
+popd > /dev/null;

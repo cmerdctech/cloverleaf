@@ -1,0 +1,12 @@
+create table Parents as
+select distinct
+'v2.14 parent primary' as version,
+
+j.personId as personId,
+j.studentUniqueIdentifier as studentUniqueIdentifier,
+'parent' as role
+
+from Address_Contact as j
+
+where trim(personId) <> ''
+and trim(studentUniqueIdentifier) <> ''
