@@ -5,14 +5,33 @@
 if [[ "j" == "$1" ]]; then
 fileName="cloverleafJmc"
 echo "SET JMS";
-cp $lightningPipeDir/system/config/$fileName.js $lightningPipeDir/system/config/cloverleaf.js
+cp $CLOVERLEAF_BASE_PATH/config/debugProfiles/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+
 elif [[ "m" == "$1" ]]; then
 fileName="cloverleafMssql"
 echo "SET MSSQL"
-cp $lightningPipeDir/system/config/$fileName.js $lightningPipeDir/system/config/cloverleaf.js
+cp $CLOVERLEAF_BASE_PATH/config/debugProfiles/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+
+elif [[ "s" == "$1" ]]; then
+fileName="SFTP"
+echo "SET SFTP"
+cp $CLOVERLEAF_BASE_PATH/config/debugProfiles/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+
+elif [[ "l" == "$1" ]]; then
+fileName="localSandbox"
+echo "SET localSandbox"
+cp $CLOVERLEAF_BASE_PATH/config/debugProfiles/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+
 else
 echo "NO CHANGE";
-cat $lightningPipeDir/system/config/cloverleaf.js | grep userName
+cat $CLOVERLEAF_BASE_PATH/config/cloverleaf.js | grep userName;
+echo -e " \
+try: \
+j - cloverleafJmc \
+m - cloverleaf mysql \
+s - server SFTP \
+l - localSandbox \
+";
 fi
 
 
