@@ -1,6 +1,5 @@
 #!/bin/bash
 
-pushd ~/service/testResults > /dev/null
 
 segment=$1
 school=$2
@@ -8,7 +7,7 @@ district=$3
 
 
 if [[ -z "$1" ]]; then
-fileName="$clTestParametersDir/testJsonDemo.js"
+fileName="$clProjectBase/config/nonRepoUtility/testJsonDemo.js"
 else
 fileName=$1
 fi
@@ -26,9 +25,7 @@ exit 1;
 fi
 
 
-#$cloverleaf --file=$filePath --overrideParentPath=/Users/tqwhite/testLinkpoint/testDataDest/AlbanyJsondevEnvironment
-$cloverleaf  --file=$filePath --saveDB
+$cloverleaf --file=$filePath --overrideParentPath=$clProjectBase/testResults/clJson/
+#$cloverleaf  --file=$filePath --saveDB
 #$cloverleaf  --file=$filePath --verbose
 #$cloverleaf  --file=$filePath
-
-popd  > /dev/null
