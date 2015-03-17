@@ -10,7 +10,7 @@
     "transform": [],
 
     "output": {
-        "type": "mysql",
+        "type": "file",
         "context": {
             "parentPath": "zzStudentPlans/Albany/",
             "header":true,
