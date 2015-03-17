@@ -12,7 +12,7 @@
     "output": {
         "type": "file",
         "context": {
-            "parentPath": "/Users/tqwhite/testLinkpoint/testDataDest/zzStudentPlans/Albany/",
+            "parentPath": "zzStudentPlans/Albany/",
             "header":true,
             "fileExtension":".txt",
             

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pushd ~/service/testResults | /dev/null
+
 segment=$1
 school=$2
 district=$3
@@ -28,3 +30,7 @@ fi
 $cloverleaf  --file=$filePath --saveDB
 #$cloverleaf  --file=$filePath --verbose
 #$cloverleaf  --file=$filePath
+
+ls -la
+
+popd  | /dev/null
