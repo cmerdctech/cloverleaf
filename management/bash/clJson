@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd ~/service/testResults | /dev/null
+pushd ~/service/testResults > /dev/null
 
 segment=$1
 school=$2
@@ -33,4 +33,4 @@ $cloverleaf  --file=$filePath --saveDB
 
 ls -la
 
-popd  | /dev/null
+popd  > /dev/null
