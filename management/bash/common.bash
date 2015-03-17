@@ -98,7 +98,7 @@ fi
 
 
 # === UTILITY AND NAVIGATION aliases ===========================================
-alias clrepo="cd $clProjectBase; pwd; git status;";
+alias clrepo="cd $clProjectBase/system; pwd; git status;";
 alias editclscripts="edit $clTestScriptsDir/common.bash"
 
 alias cldir="cd $cloverleafDir; echo -e '\n'; ls -la; pwd;"
