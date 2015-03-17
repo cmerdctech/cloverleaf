@@ -31,6 +31,4 @@ $cloverleaf  --file=$filePath --saveDB
 #$cloverleaf  --file=$filePath --verbose
 #$cloverleaf  --file=$filePath
 
-ls -la
-
 popd  > /dev/null
