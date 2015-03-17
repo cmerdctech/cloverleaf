@@ -373,11 +373,13 @@ var moduleFunction = function() {
 
 				var charCount=destination.takeItAway(outputBuffer, function(err, result) {
 					writeCount = writeCount - 1;
-
+					var	realPath=qtools.realPath(result.targetDataId),
+						showTarget=realPath?realPath:result.targetDataId;
+						
 					if (writeCount) {
-						displayMessage(err, 'completion status: ' + result.targetDataId + ' ('+result.summaryString+')\n');
+						displayMessage(err, 'completion status: ' + showTarget + ' ('+result.summaryString+')\n');
 					} else {
-						displayMessage(err, 'completion status:  ' + result.targetDataId + ' ('+result.summaryString+') (exiting)\n');
+						displayMessage(err, 'completion status:  ' + showTarget + ' ('+result.summaryString+') (exiting)\n');
 						wrapUp();
 					}
 				});
