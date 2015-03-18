@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+nodeRepo=$clProjectBase/node_modules;
+systemRepo=$clProjectBase/system;
+
+
+echo -e "\n\n$nodeRepo ====================\n\n";
+pushd $nodeRepo > /dev/null
+pwd; 
+git status;
+
+echo -e "PULLING";
+git pull;
+
+
+popd > /dev/null
+
+
+
+echo -e "\n\n\n\n$systemRepo ====================\n\n";
+pushd $systemRepo > /dev/null
+pwd; 
+git status;
+
+echo -e "PULLING";
+git pull;
+
+
+echo -e "\n\n\n\nDONE ====================\n\n";
+
+popd > /dev/null

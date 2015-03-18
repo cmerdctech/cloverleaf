@@ -1,0 +1,49 @@
+#!/bin/bash
+
+
+nodeRepo=$clProjectBase/node_modules;
+systemRepo=$clProjectBase/system;
+
+
+echo -e "\n\n$nodeRepo ====================\n\n";
+pushd $nodeRepo > /dev/null
+pwd; 
+git status;
+
+if [[ -z "$1" ]]; then
+echo -e "\n\nNO COMMIT MESSAGE";
+else
+
+echo -e "ADD ALL, COMMIT";
+git add --all .
+git commit -m"$1"
+echo -e "PUSHING";
+git push;
+
+fi
+
+popd > /dev/null
+
+
+
+echo -e "\n\n\n\n$systemRepo ====================\n\n";
+pushd $systemRepo > /dev/null
+pwd; 
+git status;
+
+
+if [[ -z "$1" ]]; then
+echo -e "\n\nNO COMMIT MESSAGE";
+else
+
+echo -e "ADD ALL, COMMIT";
+git add --all .
+git commit -m"$1"
+echo -e "PUSHING";
+git push;
+fi
+
+
+echo -e "\n\n\n\nDONE ====================\n\n";
+
+popd > /dev/null
