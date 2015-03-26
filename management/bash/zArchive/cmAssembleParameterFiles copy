@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd $clTestScriptsDir/parameterFiles/cloverMoodleSource/current > /dev/null;
+pushd $clTestScriptsDir/operation/parameterFiles/cloverMoodleSource/current > /dev/null;
 
 combineFiles.js --source=./querySets/primary --dest=../zAssembledSetsTmp/primary.js -f --template="{\"query\":\"<!itemString!>\"}" -q
 combineFiles.js --source=./querySets/secondary --dest=../zAssembledSetsTmp/secondary.js -f --template="{\"query\":\"<!itemString!>\"}" -q

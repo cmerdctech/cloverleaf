@@ -5,22 +5,22 @@
 if [[ "j" == "$1" ]]; then
 fileName="cloverleafJmc"
 echo "SET JMS";
-cp $CLOVERLEAF_BASE_PATH/config/profiles/others/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 elif [[ "m" == "$1" ]]; then
 fileName="cloverleafMssql"
 echo "SET MSSQL"
-cp $CLOVERLEAF_BASE_PATH/config/profiles/others/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 elif [[ "s" == "$1" ]]; then
 fileName="SFTP"
 echo "SET SFTP"
-cp $CLOVERLEAF_BASE_PATH/config/profiles/others/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 elif [[ "l" == "$1" ]]; then
 fileName="localSandbox"
 echo "SET localSandbox"
-cp $CLOVERLEAF_BASE_PATH/config/profiles/others/$fileName.js $CLOVERLEAF_BASE_PATH/config/cloverleaf.js
+cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 else
 echo "NO CHANGE";

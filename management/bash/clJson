@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-parameterFolderPath="$CLOVERLEAF_BASE_PATH/config/parameterFiles/testing/current/assembledParameterSets";
+parameterFolderPath="$CLOVERLEAF_BASE_PATH/config/operation/parameterFiles/testing/current/assembledParameterSets";
 
 if [[ -z "$1" ]]; then
 filePath="$parameterFolderPath/jmcPlansToFile.json"

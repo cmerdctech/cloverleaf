@@ -51,7 +51,7 @@ fi
 
 echo -e "cloverRunner profileName parameterFolderName [all|parameterFileName] [outputPath]"
 echo -e $promptMessage
-ls -l "$CLOVERLEAF_BASE_PATH/config/parameterFiles/$folderName"
+ls -l "$CLOVERLEAF_BASE_PATH/config/operation/parameterFiles/$folderName"
 exit 0
 fi
 
@@ -72,7 +72,7 @@ fi
 
 
 parameterFolderName="$2";
-parameterFolderPath="$CLOVERLEAF_BASE_PATH/config/parameterFiles/$parameterFolderName/current/assembledParameterSets";
+parameterFolderPath="$CLOVERLEAF_BASE_PATH/config/operation/parameterFiles/$parameterFolderName/current/assembledParameterSets";
 
 if [ ! -d "$parameterFolderPath" ]; then
 	echo -e "ERROR: No such folder (parameterFolderPath: $parameterFolderPath)";

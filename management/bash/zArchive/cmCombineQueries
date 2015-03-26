@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd $clTestScriptsDir/parameterFiles/cloverMoodleSource/current > /dev/null
+pushd $clTestScriptsDir/operation/parameterFiles/cloverMoodleSource/current > /dev/null
 
 combineFiles.js --source=./querySets/skewedSqlQueries --dest=zCombinedComponentsTmp/skewedSqlQueries.js -f --template="{\"query\":\"<!itemString!>\"}"
 
