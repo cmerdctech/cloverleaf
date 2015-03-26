@@ -31,7 +31,7 @@ fi
 if [[ "--profiles" == "$1" ]]; then
 echo -e "cloverRunner profileName parameterFolderName [all|parameterFileName] [outputPath]"
 echo -e "Available profiles are:"
-ls -l "$CLOVERLEAF_BASE_PATH/config/profiles/others/"
+ls -l "$CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/"
 exit 0
 fi
 
@@ -63,7 +63,7 @@ if [ ! $tmp ]; then
 profileName="$profileName.js";
 fi
 
-profilePath="$CLOVERLEAF_BASE_PATH/config/profiles/others/$profileName";
+profilePath="$CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$profileName";
 
 if [ ! -e "$profilePath" ]; then
 	echo -e "ERROR: No such file (profilePath: $profileName)";
