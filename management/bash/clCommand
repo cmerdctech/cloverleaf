@@ -1,4 +1,0 @@
-#!/bin/bash
-
-#this is a file instead of an alias so it matches clJson and clSingle
-$clTestParametersDir/testCommandsDemo.bash

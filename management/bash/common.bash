@@ -51,11 +51,11 @@ export PATH=$PATH:"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )": #include 
 echo -e "\ncd clProjectBase ======"; cd $clProjectBase; pwd; #note: this is a synonym of lprepo, repo is different in some other projects
 
 # === symbolic link allows paths fixed in control files to be redirected for various test purposes ===
-echo -e $testLinkDir;
+echo -e $dataLinkDir;
 
-if [ ! -d "$testLinkDir" ]; then
-	echo -e "creating: $testLinkDir";
-	mkdir $testLinkDir;
+if [ ! -d "$dataLinkDir" ]; then
+	echo -e "creating: $dataLinkDir";
+	mkdir $dataLinkDir;
 fi
 
 

@@ -43,7 +43,7 @@ var moduleFunction = function() {
 	//set up application -------------------------------------------------------
 	var clBasePath = process.env.CLOVERLEAF_BASE_PATH;
 	if (!clBasePath) {
-		qtools.die("there must be an environment variable named CLOVERLEAF_BASE_PATH pointing to a folder named 'config' containing lightningPipe.js and localEnvironment.js");
+		qtools.die("there must be an environment variable named CLOVERLEAF_BASE_PATH pointing to a directory containing folder named 'config/profiles' containing cloverleaf.js and localEnvironment.js");
 	}
 
 	var localEnvironment = require(clBasePath + 'config/localEnvironment.js');
@@ -55,7 +55,7 @@ var moduleFunction = function() {
 		startup: "STARTING CLOVERLEAF==================="
 	});
 
-	var config = require(clBasePath + 'config/cloverleaf.js');
+	var config = require(clBasePath + 'config/profiles/cloverleaf.js');
 	config = new config({notifierGenerator:require('cloverleafNotifier')});
 	config.cmdLineSwitches=cmdLineSwitches; //I hereby declare command line switches are always configuration parameters
 

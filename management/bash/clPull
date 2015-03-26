@@ -5,7 +5,7 @@ nodeRepo=$clProjectBase/node_modules;
 systemRepo=$clProjectBase/system;
 
 
-echo -e "\n\n$nodeRepo ====================\n\n";
+echo -e "\n\n$nodeRepo ====================\n";
 pushd $nodeRepo > /dev/null
 pwd; 
 git status;
@@ -18,9 +18,8 @@ popd > /dev/null
 
 
 
-echo -e "\n\n\n\n$systemRepo ====================\n\n";
+echo -e "\n\n\n\n$systemRepo ====================\n";
 pushd $systemRepo > /dev/null
-pwd; 
 git status;
 
 echo -e "PULLING";

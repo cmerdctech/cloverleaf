@@ -1,31 +1,27 @@
 #!/bin/bash
 
 
-segment=$1
-school=$2
-district=$3
-
+parameterFolderPath="$CLOVERLEAF_BASE_PATH/config/parameterFiles/testing/current/assembledParameterSets";
 
 if [[ -z "$1" ]]; then
-fileName="$clProjectBase/config/nonRepoUtility/testJsonDemo.js"
+filePath="$parameterFolderPath/jmcPlansToFile.json"
+
 else
-fileName=$1
+filePath="$parameterFolderPath/$1.json"
 fi
 
 
-if [[ -f "$clTestParametersDir/$fileName" ]]; then
+if [[ ! -f "$filePath" ]]; then
 
-filePath="$clTestParametersDir/$fileName"
-
-elif [[ -f "$fileName" ]]; then
-filePath="$fileName"
-else
-echo -e "$fileName does not exist";
+echo -e "$filePath does not exist";
 exit 1;
 fi
 
+echo -e "executing:\n \
+$cloverleaf --file=$filePath --overrideParentPath=$dataLinkDir/mainDataDestination/clJson/ \n"
 
-$cloverleaf --file=$filePath --overrideParentPath=$clProjectBase/testResults/clJson/
+
+$cloverleaf --file=$filePath --overrideParentPath=$dataLinkDir/mainDataDestination/clJson/
 #$cloverleaf  --file=$filePath --saveDB
 #$cloverleaf  --file=$filePath --verbose
 #$cloverleaf  --file=$filePath

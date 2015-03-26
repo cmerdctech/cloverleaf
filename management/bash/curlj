@@ -10,4 +10,4 @@ else
 URL=$1
 fi
 
-curl -i -H "username:jmcPlans1" -H "password:123" $URL
+curl -i -H "username:localSandbox" -H "password:123" $URL

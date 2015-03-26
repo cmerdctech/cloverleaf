@@ -1,6 +1,0 @@
-#!/bin/bash
-
-$cloverleaf  --file=$clTestParametersDir/cloverMoodleSource/current/assembledParameterSets/tcu010.json
-$cloverleaf  --file=$clTestParametersDir/cloverMoodleSource/current/assembledParameterSets/tcu020.json
-$cloverleaf  --file=$clTestParametersDir/cloverMoodleSource/current/assembledParameterSets/tcu030.json
-$cloverleaf  --file=$clTestParametersDir/cloverMoodleSource/current/assembledParameterSets/tcu040.json
