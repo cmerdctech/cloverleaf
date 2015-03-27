@@ -7,14 +7,11 @@ TESTING COMMANDS\n\n\
 
 pingLp - ping LP test server\n\
 
-clSingle - Run Cloverleaf with specific parameters\n\
-clCommands - Run Cloverleaf from shell script file\n\
-   (\$clTestParametersDir/testCommandsDemo.bash)\n\\n\
-clJson - Run Cloverleaf against parameter file\n\
-   (\$clTestParametersDir/testJsonDemo.js)\n\\n\
-cljmcUser - set Cloverleaf user to jmc\n\
-clmssqlUser - set Cloverleaf usr to mssql\n\n\
-'cloverleaf -p' - gives you info about it's current setup\n\
+clRunner - Run Cloverleaf with a command that specifies all aspects of the run\n \
+			also identify profiles and parameters\n\\n\
+clJson - Run Cloverleaf against parameter file\n\n\
+clswitchLogin - run Cloverleaf as a different client \n\n\
+'cloverleaf -p' - gives you info about it's current setup\n\n\
 
 cldir - cd to Cloverleaf code\n\n\
 clInfo - repeat this information\n\n\
@@ -77,12 +74,8 @@ ln -s $homeDir/testLinkpoint/cloverleafHome/testResults/ $homeDir/testLinkpoint/
 
 
 # create environment variables for important locations ================================
-export clSystemDir="$homeDir/testLinkpoint/cloverleafHome/system"
 export cloverleafDir="$homeDir/testLinkpoint/cloverleafHome/system/cloverleaf"
 export clLoggingDir="$homeDir/testLinkpoint/cloverleafHome/logFiles"
-
-
-export clTestParametersDir="$clSystemDir/management/bash/parameterFiles"
 
 export testDestDir="$homeDir/testLinkpoint/clTestDataDest"; #for use in bash files
 
@@ -112,13 +105,6 @@ alias cloverleaf="node $cloverleafDir/cloverleaf.js" #this is good on the comman
 
 # === TEST RUNNING ===========================================
 alias pingLp="curl http://127.0.0.1:8000/ping"
-
-alias execCloverleaf="execCloverleaf.bash"
-alias cljsontest="$cloverleaf -f $clTestParametersDir/testJsonDemo.js"
-
-#change cloverleaf configuration to set user
-alias cljmcUser="cp $clSystemDir/config/cloverleafJmc.js $clSystemDir/config/cloverleaf.js; echo 'SET JMC';"
-alias clmssqlUser="cp $clSystemDir/config/cloverleafMssql.js $clSystemDir/config/cloverleaf.js; echo 'SET MSSQL';"
 
 if [ "$serverContext" == "qbook" ]; then
 alias viewLog="cat $clLoggingDir/lightningClover.log | bunyan | tail -c -10000; echo 'ANY FATAL?'; cat $clLoggingDir/lightningClover.log | bunyan -l fatal; echo 'done';"

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+echo -e "\
+\nusage:\tclCurlj clientCode URL \n
+eg:\tclCurl l http://127.0.0.1:8000/ping\
+";
+exit 1;
+elif [[ -z "$2" ]]; then
+echo "A URL is required";
+exit 1;
+fi
+
+case "$1" in
+
+"l" )
+	echo "curl -i -H "username:localSandbox" -H "password:123" $URL"
+	;;
+"m" )
+	echo "curl -i -H "username:mssql" -H "password:123" $URL"
+	;;
+"s" )
+	echo "curl -i -H "username:SFTP" -H "password:123" $URL"
+	;;
+esac

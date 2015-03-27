@@ -1,5 +1,14 @@
 #!/bin/bash
 
+
+curl -s http://127.0.0.1:8000/ping > /dev/null
+result=$?;
+if [ "$result" != "0" ]; then
+echo "Lightning Pipe Server is not running"
+exit $?
+fi
+
+
 if [[ ! $1 || "-h" == "$1"  || "--help" == "$1" ]]; then
 echo -e "------------------------------------------ \
 \n\ncloverRunner - executes Cloverleaf with supplied specifications. \
