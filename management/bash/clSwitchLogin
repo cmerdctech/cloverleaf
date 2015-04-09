@@ -22,14 +22,21 @@ fileName="localSandbox"
 echo "SET localSandbox"
 cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
+
+elif [[ "r" == "$1" ]]; then
+fileName="mattRandom2Mssql"
+echo "SET mattRandom2Mssql"
+cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
+
 else
 echo "NO CHANGE";
 cat $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js | grep "userName:";
 echo -e " \n\
 try: \n\
 j - cloverleafJmc \n\
-m - cloverleaf mysql \n\
-s - server SFTP \n\
+m - cloverleafMssql \n\
+r - mattRandom2Mssql \n\
+s - SFTP \n\
 l - localSandbox \n\
 ";
 fi

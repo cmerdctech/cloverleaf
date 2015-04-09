@@ -11,15 +11,24 @@ echo "A URL is required";
 exit 1;
 fi
 
+URL=$2;
+
 case "$1" in
 
 "l" )
 	echo "curl -i -H "username:localSandbox" -H "password:123" $URL"
+	curl -i -H "username:localSandbox" -H "password:123" $URL
 	;;
 "m" )
 	echo "curl -i -H "username:mssql" -H "password:123" $URL"
+	curl -i -H "username:mssql" -H "password:123" $URL
+	;;
+"r" )
+	echo "curl -i -H "username:mattRandom2" -H "password:123" $URL"
+	curl -i -H "username:mattRandom2" -H "password:123" $URL
 	;;
 "s" )
 	echo "curl -i -H "username:SFTP" -H "password:123" $URL"
+	curl -i -H "username:SFTP" -H "password:123" $URL
 	;;
 esac

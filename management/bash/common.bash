@@ -43,7 +43,11 @@ echo -e "$clTestInfo";
 alias clInfo=' echo -e "$clTestInfo"'
 alias clTestDir="cd $clProjectBase/testResults"
 
+
+if [ ! $updatedCommonCloverleafPath ]; then
 export PATH=$PATH:"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )": #include other executable scripts in this directory
+export updatedCommonCloverleafPath='done'
+fi
 
 echo -e "\ncd clProjectBase ======"; cd $clProjectBase; pwd; #note: this is a synonym of lprepo, repo is different in some other projects
 

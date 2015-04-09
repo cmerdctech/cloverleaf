@@ -21,7 +21,7 @@ echo -e "executing:\n \
 $cloverleaf --file=$filePath --overrideParentPath=$dataLinkDir/mainDataDestination/clJson/ \n"
 
 
-$cloverleaf --file=$filePath --overrideParentPath=$dataLinkDir/mainDataDestination/clJson/
-#$cloverleaf  --file=$filePath --saveDB
+#$cloverleaf --file=$filePath --overrideParentPath=$dataLinkDir/mainDataDestination/clJson/
+$cloverleaf  --file=$filePath --saveDB --overrideParentPath=$dataLinkDir/mainDataDestination/clJson/
 #$cloverleaf  --file=$filePath --verbose
 #$cloverleaf  --file=$filePath
