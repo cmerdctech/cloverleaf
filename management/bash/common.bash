@@ -103,8 +103,8 @@ alias cldir="cd $cloverleafDir; echo -e '\n'; ls -la; pwd;"
 
 
 # === BASIC OPERATION aliases/variables ===========================================
-export cloverleaf="node $cloverleafDir/cloverleaf.js" #this seems to work better inside of scripts than an alias
-alias cloverleaf="node $cloverleafDir/cloverleaf.js" #this is good on the command line so you don't have to type $
+export cloverleaf="node --max-old-space-size=6144  $cloverleafDir/cloverleaf.js" #this seems to work better inside of scripts than an alias
+alias cloverleaf="node --max-old-space-size=6144 my-node-script.js $cloverleafDir/cloverleaf.js" #this is good on the command line so you don't have to type $
 
 
 # === TEST RUNNING ===========================================

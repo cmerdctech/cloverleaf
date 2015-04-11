@@ -367,11 +367,39 @@ var moduleFunction = function() {
 
 		var transformationCallback = function(outputDataBufferList) {
 			var writeCount = qtools.count(outputDataBufferList);
+console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: transformationCallback before final write loop)  =========================\n');
+
+
+		global.localEnvironment.log.info({
+			source: 'transformationCallback (callback)',
+			type: 'transformationComplete',
+			message:"before final write loop"
+		});
 			for (var fileName in outputDataBufferList) {
 				var outputBuffer = outputDataBufferList[fileName];
 				var destination = destinationSource.writer(fileName);
 
+console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: transformationCallback (write loop))  =========================\n');
+
+
+console.log('fileName='+fileName+'\n');
+
+
+		global.localEnvironment.log.info({
+			source: 'transformationCallback (write loop)',
+			type: 'preparing to write output table',
+			fileName: fileName
+		});
 				var charCount=destination.takeItAway(outputBuffer, function(err, result) {
+
+console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: destination (write callback))  =========================\n');
+
+				
+		global.localEnvironment.log.info({
+			source: 'destination (write callback)',
+			type: 'finished writing one table',
+			err: err
+		});
 					writeCount = writeCount - 1;
 					var	realPath=qtools.realPath(result.targetDataId),
 						showTarget=realPath?realPath:result.targetDataId;

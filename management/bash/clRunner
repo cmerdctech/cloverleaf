@@ -4,7 +4,7 @@
 curl -s http://127.0.0.1:8000/ping > /dev/null
 result=$?;
 if [ "$result" != "0" ]; then
-echo "Lightning Pipe Server is not running"
+echo "ALERT: Lightning Pipe Server is not running"
 exit $?
 fi
 
@@ -122,8 +122,8 @@ cp $profilePath $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 for parameterFileName in ${parameterFileList[*]}; do
 
-echo -e "\n\$cloverleaf --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString";
-$cloverleaf --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString
+echo -e "\n\$cloverleaf  --saveDB --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString";
+$cloverleaf  --saveDB --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString
 
 done
 
