@@ -103,8 +103,22 @@ alias cldir="cd $cloverleafDir; echo -e '\n'; ls -la; pwd;"
 
 
 # === BASIC OPERATION aliases/variables ===========================================
-export cloverleaf="node --max-old-space-size=6144  $cloverleafDir/cloverleaf.js" #this seems to work better inside of scripts than an alias
-alias cloverleaf="node --max-old-space-size=6144 my-node-script.js $cloverleafDir/cloverleaf.js" #this is good on the command line so you don't have to type $
+# --max_new_space_size (max size of the new generation (in kBytes))
+# --max_old_space_size (max size of the old generation (in Mbytes))
+# --max_executable_size (max size of executable memory (in Mbytes))
+
+#memoryAllocation="--max-old-space-size=1024";
+#memoryAllocation="--max-old-space-size=2048";
+#memoryAllocation="--max-old-space-size=3072";
+#memoryAllocation="--max-old-space-size=4096";
+#memoryAllocation="--max-old-space-size=5120";
+#memoryAllocation="--max-old-space-size=6144";
+#memoryAllocation="--max-old-space-size=7168";
+#memoryAllocation="--max-old-space-size=8192";
+memoryAllocation="";
+
+export cloverleaf="node $memoryAllocation $cloverleafDir/cloverleaf.js" #this seems to work better inside of scripts than an alias
+alias cloverleaf="node $memoryAllocation my-node-script.js $cloverleafDir/cloverleaf.js" #this is good on the command line so you don't have to type $
 
 
 # === TEST RUNNING ===========================================

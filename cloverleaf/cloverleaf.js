@@ -33,7 +33,7 @@ var moduleFunction = function() {
 		.option(', --file', 'get specs from file')
 		.option('-o, --overrideParentPath', 'Use this path instead of the one in the spec file (only valid with -f)')
 		.parse(process.argv);
-		cmdLineSwitches.argumentData=qtools.extractParameters('', cmdLineSwitches); //get argument from --switch=argData type switches
+	cmdLineSwitches.argumentData = qtools.extractParameters('', cmdLineSwitches); //get argument from --switch=argData type switches
 
 
 	if (cmdLineSwitches.background) {
@@ -49,20 +49,22 @@ var moduleFunction = function() {
 	var localEnvironment = require(clBasePath + 'config/localEnvironment.js');
 	global.localEnvironment = new localEnvironment({
 		appName: 'cloverleaf',
-		projectBasePath:clBasePath
+		projectBasePath: clBasePath
 	});
 	global.localEnvironment.log.info({
 		startup: "STARTING CLOVERLEAF==================="
 	});
 
 	var config = require(clBasePath + 'config/profile/cloverleaf.js');
-	config = new config({notifierGenerator:require('cloverleafNotifier')});
-	config.cmdLineSwitches=cmdLineSwitches; //I hereby declare command line switches are always configuration parameters
+	config = new config({
+		notifierGenerator: require('cloverleafNotifier')
+	});
+	config.cmdLineSwitches = cmdLineSwitches; //I hereby declare command line switches are always configuration parameters
 
 	global.localEnvironment.log.info({
 		accessingAsUser: config.authParms.userName
 	});
-	
+
 	var runtimeParameters = config.runtimeParameters;
 
 	if (cmdLineSwitches.params) {
@@ -76,36 +78,36 @@ var moduleFunction = function() {
 	var dataBufferList = {},
 		controlSpecifications,
 		inputGenerator = require('apiAccessor'),
-		dataBufferGenerator=require('dataBuffer'),
+		dataBufferGenerator = require('dataBuffer'),
 		destinationGenerator = require('destination'),
 		collectorGenerator = require('collector'),
-		transformationGenerator=require('transformation');
+		transformationGenerator = require('transformation');
 
 	//worker functions -------------------------------------------------------
 
-	var displayMessage=function(err, displayMessage, logMessage){
+	var displayMessage = function(err, displayMessage, logMessage) {
 
 		if (!cmdLineSwitches.quiet) {
 			if (err) {
-				qtools.message(displayMessage+qtools.dump(err, true), 'black');
-// 				var errorFileName = global.localEnvironment.logFileDirectory + 'error.txt';
-// 				qtools.writeSureFile(errorFileName, qtools.wrapMessage(message), {append:true})
+				qtools.message(displayMessage + qtools.dump(err, true), 'black');
+				// 				var errorFileName = global.localEnvironment.logFileDirectory + 'error.txt';
+				// 				qtools.writeSureFile(errorFileName, qtools.wrapMessage(message), {append:true})
 			} else {
 				qtools.message(displayMessage, 'blue');
 			}
 		}
-		
-			if (err) {
-		global.localEnvironment.log.warn({
-			cloverleaf: {
-				type: 'cloverleaf.topLevelError',
-				message: logMessage,
-				err: err
-			}
-		});
+
+		if (err) {
+			global.localEnvironment.log.warn({
+				cloverleaf: {
+					type: 'cloverleaf.topLevelError',
+					message: logMessage,
+					err: err
+				}
+			});
 		}
 
-		
+
 	}
 	var pushToFailureList = function(item) {
 		if (!self.failureList) {
@@ -127,22 +129,22 @@ var moduleFunction = function() {
 
 		return outMessage;
 	}
-	
-	var writeFinalError=function(){
-		
-			global.localEnvironment.log.error({
-				cloverleaf: {
-					source: 'cloverleaf.errorExit',
-					data: formatFailureListInfo()
-				}
-			});
 
-			config.notifier && config.notifier.addInfo("Cloverleaf DID NOT FINISH SUCCESSFULLY. THERE WERE ERRORS.");
-			config.notifier && config.notifier.addInfo(formatFailureListInfo());
-			config.notifier && config.notifier.setErrorMode(); //sends email if config doesn't suppress it
+	var writeFinalError = function() {
 
-			qtools.errorExit(formatFailureListInfo());
-		
+		global.localEnvironment.log.error({
+			cloverleaf: {
+				source: 'cloverleaf.errorExit',
+				data: formatFailureListInfo()
+			}
+		});
+
+		config.notifier && config.notifier.addInfo("Cloverleaf DID NOT FINISH SUCCESSFULLY. THERE WERE ERRORS.");
+		config.notifier && config.notifier.addInfo(formatFailureListInfo());
+		config.notifier && config.notifier.setErrorMode(); //sends email if config doesn't suppress it
+
+		qtools.errorExit(formatFailureListInfo());
+
 	}
 
 	var wrapUp = function() {
@@ -156,12 +158,13 @@ var moduleFunction = function() {
 			config.notifier && config.notifier.addInfo("Cloverleaf finished successfully");
 
 
-			var messageSuccessExit = function() {return;
+			var messageSuccessExit = function() {
+				return;
 				if (!cmdLineSwitches.quiet) {
-				//	qtools.successExit('Cloverleaf finished successfully');
+					//	qtools.successExit('Cloverleaf finished successfully');
 					qtools.message('Cloverleaf finished successfully');
 				} else {
-				//	qtools.successExit();
+					//	qtools.successExit();
 				}
 			}
 
@@ -286,7 +289,7 @@ var moduleFunction = function() {
 				if (args.retryCount > 0) {
 					self.requestQueue.push(args);
 					executionController();
-						displayMessage(err, 'REQUEUING for input segment: ' + args.destination + ' from (' + args.source + ') ' + args.retryCount + ' (reason : ' + err.message + ')');
+					displayMessage(err, 'REQUEUING for input segment: ' + args.destination + ' from (' + args.source + ') ' + args.retryCount + ' (reason : ' + err.message + ')');
 
 				} else {
 
@@ -297,16 +300,16 @@ var moduleFunction = function() {
 						}
 					}, 'a request failed');
 
-						displayMessage(err, 'FAILED for input segment:    ' + args.destination + '    from    ' + args.source + '    ' + args.retryCount + '    as user    ' + config.authParms.userName + '   (reason : ' + err.message + ')');
-						config.notifier && config.notifier.addInfo("ERROR NOT UPDATED: " + args.destination);
+					displayMessage(err, 'FAILED for input segment:    ' + args.destination + '    from    ' + args.source + '    ' + args.retryCount + '    as user    ' + config.authParms.userName + '   (reason : ' + err.message + ')');
+					config.notifier && config.notifier.addInfo("ERROR NOT UPDATED: " + args.destination);
 
-						pushToFailureList(args);
+					pushToFailureList(args);
 
 				}
 
 			} else {
 				global.localEnvironment.log.info({
-				source:'cloverleaf.js',
+					source: 'cloverleaf.js',
 					UPDATEDINPUTSEGMENT: {
 						file: args.destination,
 						url: args.source,
@@ -315,7 +318,7 @@ var moduleFunction = function() {
 				});
 				config.notifier && config.notifier.addInfo("Updated: " + args.destination);
 
-					displayMessage('', 'updated input segment:    ' + args.destination + '    from ' + args.source + '    as user    ' + config.authParms.userName);
+				displayMessage('', 'updated input segment:    ' + args.destination + '    from ' + args.source + '    as user    ' + config.authParms.userName);
 
 			}
 
@@ -367,53 +370,42 @@ var moduleFunction = function() {
 
 		var transformationCallback = function(outputDataBufferList) {
 			var writeCount = qtools.count(outputDataBufferList);
-console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: transformationCallback before final write loop)  =========================\n');
 
-
-		global.localEnvironment.log.info({
-			source: 'transformationCallback (callback)',
-			type: 'transformationComplete',
-			message:"before final write loop"
-		});
+			global.localEnvironment.log.info({
+				source: 'transformationCallback (callback)',
+				type: 'transformationComplete',
+				message: "before final write loop"
+			});
 			for (var fileName in outputDataBufferList) {
 				var outputBuffer = outputDataBufferList[fileName];
 				var destination = destinationSource.writer(fileName);
 
-console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: transformationCallback (write loop))  =========================\n');
+				global.localEnvironment.log.info({
+					source: 'transformationCallback (write loop)',
+					type: 'preparing to write output table',
+					fileName: fileName
+				});
+				destination.takeItAway(outputBuffer, function(err, result) {
 
-
-console.log('fileName='+fileName+'\n');
-
-
-		global.localEnvironment.log.info({
-			source: 'transformationCallback (write loop)',
-			type: 'preparing to write output table',
-			fileName: fileName
-		});
-				var charCount=destination.takeItAway(outputBuffer, function(err, result) {
-
-console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: destination (write callback))  =========================\n');
-
-				
-		global.localEnvironment.log.info({
-			source: 'destination (write callback)',
-			type: 'finished writing one table',
-			err: err
-		});
+					global.localEnvironment.log.info({
+						source: 'destination (write callback)',
+						type: 'finished writing one table',
+						err: err
+					});
 					writeCount = writeCount - 1;
-					var	realPath=qtools.realPath(result.targetDataId),
-						showTarget=realPath?realPath:result.targetDataId;
-						
+					var realPath = qtools.realPath(result.targetDataId),
+						showTarget = realPath ? realPath : result.targetDataId;
+
 					if (writeCount) {
-						displayMessage(err, 'completion status: ' + showTarget + ' ('+result.summaryString+')\n');
+						displayMessage(err, 'completion status: ' + showTarget + ' (' + result.summaryString + ')\n');
 					} else {
-						displayMessage(err, 'completion status:  ' + showTarget + ' ('+result.summaryString+') (exiting)\n');
+						displayMessage(err, 'completion status:  ' + showTarget + ' (' + result.summaryString + ') (exiting)\n');
 						wrapUp();
 					}
 				});
 			}
 		}
-		
+
 		var transformer = new transformationGenerator({
 			transformSpecs: controlSpecifications.transform,
 			config: config,
@@ -429,11 +421,11 @@ console.log('\n=-=============  '+ __filename.replace(__dirname,'') +'   (at: de
 
 	if (cmdLineSwitches.file) {
 		controlSpecifications = getSpecsFromFile();
-		
-		if (cmdLineSwitches.overrideParentPath && cmdLineSwitches.argumentData.overrideParentPath){
-			controlSpecifications=qtools.putSurePath(controlSpecifications, 'output.context.parentPath', cmdLineSwitches.argumentData.overrideParentPath+'/');
+
+		if (cmdLineSwitches.overrideParentPath && cmdLineSwitches.argumentData.overrideParentPath) {
+			controlSpecifications = qtools.putSurePath(controlSpecifications, 'output.context.parentPath', cmdLineSwitches.argumentData.overrideParentPath + '/');
 		}
-		
+
 		this.requestQueue = controlSpecifications.input;
 	} else {
 		controlSpecifications = getSpecsFromCommandLine();
@@ -453,6 +445,7 @@ util.inherits(moduleFunction, events.EventEmitter);
 module.exports = moduleFunction;
 
 new moduleFunction();
+
 
 
 
