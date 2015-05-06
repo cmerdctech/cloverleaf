@@ -4,6 +4,12 @@ if [[ -z "$1" ]]; then
 echo -e "\
 \nusage:\tclCurlj clientCode URL \n
 eg:\tclCurl l http://127.0.0.1:8000/ping\
+\nvalid profile flags are: \n\
+s - SFTP \n\
+l - localSandbox \n\
+e - etl \n\
+t - etlTest \n\
+r - mattRandom2 \n\
 ";
 exit 1;
 elif [[ -z "$2" ]]; then
@@ -15,20 +21,27 @@ URL=$2;
 
 case "$1" in
 
-"l" )
-	echo "curl -i -H "username:localSandbox" -H "password:123" $URL"
-	curl -i -H "username:localSandbox" -H "password:123" $URL
+"s" )
+	userName="SFTP";
+	password="123";
 	;;
-"m" )
-	echo "curl -i -H "username:mssql" -H "password:123" $URL"
-	curl -i -H "username:mssql" -H "password:123" $URL
+"l" )
+	userName="localSandbox";
+	password="123";
+	;;
+"e" )
+	userName="etl";
+	password="123";
+	;;
+"t" )
+	userName="etlTest";
+	password="123";
 	;;
 "r" )
-	echo "curl -i -H "username:mattRandom2" -H "password:123" $URL"
-	curl -i -H "username:mattRandom2" -H "password:123" $URL
-	;;
-"s" )
-	echo "curl -i -H "username:SFTP" -H "password:123" $URL"
-	curl -i -H "username:SFTP" -H "password:123" $URL
+	userName="mattRandom2";
+	password="123";
 	;;
 esac
+
+	curl -i -H "username:$userName" -H "password:$password" $URL
+	echo -e "\n\nFROM: curl -i -H "username:$userName" -H "password:$password" $URL"
