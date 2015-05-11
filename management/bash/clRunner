@@ -102,7 +102,7 @@ else
 	parameterFileList=($(ls $parameterFileName* ))
 
 	if [ "$parameterFileList" = "" ]; then
-		echo -e "\n\nERROR: There are no parameter files in the specified location ($parameterFolderPath/$parameterFileName). Perhaps you didn't run cmAssembleParameterFiles";
+		echo -e "\n\nERROR: There are no parameter files in the specified location ($parameterFolderPath/$parameterFileName).\n\nPerhaps you didn't run cmAssembleParameterFiles";
 		exit $?
 	fi
 	popd  > /dev/null

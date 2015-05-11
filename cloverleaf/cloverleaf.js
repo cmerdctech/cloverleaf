@@ -371,7 +371,7 @@ var moduleFunction = function() {
 		var transformationCallback = function(outputDataBufferList) {
 			var writeCount = qtools.count(outputDataBufferList);
 
-			global.localEnvironment.log.info({
+			global.localEnvironment.log.debug({
 				source: 'transformationCallback (callback)',
 				type: 'transformationComplete',
 				message: "before final write loop"
@@ -380,14 +380,14 @@ var moduleFunction = function() {
 				var outputBuffer = outputDataBufferList[fileName];
 				var destination = destinationSource.writer(fileName);
 
-				global.localEnvironment.log.info({
+				global.localEnvironment.log.debug({
 					source: 'transformationCallback (write loop)',
 					type: 'preparing to write output table',
 					fileName: fileName
 				});
 				destination.takeItAway(outputBuffer, function(err, result) {
 
-					global.localEnvironment.log.info({
+					global.localEnvironment.log.debug({
 						source: 'destination (write callback)',
 						type: 'finished writing one table',
 						err: err

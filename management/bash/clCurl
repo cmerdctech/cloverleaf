@@ -10,6 +10,7 @@ l - localSandbox \n\
 e - etl \n\
 t - etlTest \n\
 r - mattRandom2 \n\
+d - etlTestDataFileServer \n\
 ";
 exit 1;
 elif [[ -z "$2" ]]; then
@@ -39,6 +40,10 @@ case "$1" in
 	;;
 "r" )
 	userName="mattRandom2";
+	password="123";
+	;;
+"d" )
+	userName="etlTestDataFileServer";
 	password="123";
 	;;
 esac
