@@ -1,0 +1,32 @@
+A LightningPipe client is...
+
+Authentication parameters
+
+List of API profiles (eg, UFF), each consisting of three things:
+	1) server type (file or mssql), location and credentials (eg, etl or SFTP)
+	2) server schema profile (eg, lpSchema or uffFlat1)
+	3) data dictionary (eg, studentPlansInitial)
+
+Perhaps no longer relevant, 'dataAccessAvailable' allows or prohibits access to existing data for this client for each defined API.
+
+
+A Cloverleaf profile is...
+
+LightningPipe access client credentials
+Notification email SMTP server credentials
+Runtime parameters
+
+Note: Cloverleaf is not a server. It is a client application designed to support one application accessing one data source and providing one output stream. It executes and quits.
+
+
+Cloverleaf LMS uses these tables:
+
+Address_Contact
+Course
+Section_Staff
+Section_Student
+Section
+Student_Base
+Student_Enrollment
+User_Role
+User_Base
