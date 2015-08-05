@@ -3,8 +3,8 @@
 
 
 if [[ "j" == "$1" ]]; then
-fileName="cloverleafJmc"
-echo "SET JMS";
+fileName="jmcLocalTestData"
+echo "SET JMC for Plans Development";
 cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 elif [[ "m" == "$1" ]]; then
@@ -33,7 +33,7 @@ echo "NO CHANGE";
 cat $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js | grep "userName:";
 echo -e " \n\
 try: \n\
-j - cloverleafJmc \n\
+j - jmcLocalTestData \n\
 m - cloverleafMssql \n\
 r - mattRandom2Mssql \n\
 s - SFTP \n\

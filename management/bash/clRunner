@@ -22,7 +22,7 @@ echo -e "------------------------------------------ \
 \n\n\
 \tparameterFileName - optional parameter, if omitted (or spec'd with string 'all') defaults to all files in the directory are processed, if present only files that match that pattern are processed (eg, name* will result in nameA and nameB being processed but not someotherName) \
 \n\n\
-\toutputPath - optional parameter, if omitted, data is stored in test output director, if string 'useParameterFileSpec' appears, output spec (file, mysql) in json parameter files is used,  if present all results are put into specified directory. \
+\toutputPath - optional parameter, if omitted, data is stored in test output directory, if string 'useParameterFileSpec' appears, output spec (file, mysql) in json parameter files is used,  if present all results are put into specified directory. \
 \n\n\
 \n\n\
 \t-h, --help - display this helpful message \
@@ -31,6 +31,14 @@ echo -e "------------------------------------------ \
 \n\n\
 \t--parameters [parameterDirectoryName] - show a list of available parameter directories, if parameterDirectoryName is specified, shows the parameterFileNames in that directory \
 \n\n\
+Examples\n\n\
+clRunner jmcLocalTestData studentPlans Hancock\n\
+clRunner jmcLocalTestData studentPlans Hancock ~/Desktop/tmp\n\
+clRunner jmcSftp studentPlans Hancock\n\
+clRunner etl cloverMoodle TQ010 (remember to turn on VPN if needed)\n\
+clRunner jmcSftp cloverMoodle Upsala010\n\
+clRunner etl cloverMoodle TQ* ~/tmp (processes all the schools in the TQ district)\n\
+clRunner jmcSftp cloverMoodle all (processes all of the schools in all the cloverMoodle districts)\n\
 \n\n\
 ------------------------------------------ \
 "
@@ -120,16 +128,24 @@ else [ $overrideDirectory ]
 	overrideDirectoryString="--overrideParentPath=$overrideDirectory"
 fi
 
+summaryString="";
+copyCommand="$profilePath $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js"
+summaryString="$summaryString\n\n";
+echo -e "$copyCommand\n\n";
 
-echo -e "\ncp $profilePath $CLOVERLEAF_BASE_PATH/config/cloverleaf.js\n\n"
-cp $profilePath $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
+cp $copyCommand
 
 
 for parameterFileName in ${parameterFileList[*]}; do
 
-echo -e "\n\$cloverleaf  --saveDB --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString";
-$cloverleaf  --saveDB --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString
+cloverleafCommand="$cloverleaf  --saveDB --file=$parameterFolderPath/$parameterFileName $overrideDirectoryString";
+echo -e $cloverleafCommand
+summaryString="$summaryString\n\n$cloverleafCommand";
+
+$cloverleafCommand
 
 done
+
+echo -e $summaryString;
 
 exit $?

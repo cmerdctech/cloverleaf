@@ -10,6 +10,19 @@ select * from Users as u1
 where (select count(*) from Users as u2 where u1.userName=u2.userName or u1.personId=u2.personId)>1
 order by lastName, firstName;
 
+#look for duplicate users with students
+select u1.personId, u1.lastName, u1.firstName, u1.schoolCode,
+student.lastName, student.firstName
+from Users as u1
+left join Parents as p on p.personId=u1.personId
+left join Users as student on student.personId=p.studentUniqueIdentifier
+where (select count(*) from Users as u2 where u1.userName=u2.userName or u1.personId=u2.personId)>1
+order by lastName, firstName;
+
+select distinct userName, personId from Users;
+select userName, personId from Users;
+
+
 select u.userName, u.personId, u.lastName, s.firstName, s.lastName, u.firstName from Users as u1
 left join Parents as p on p.personId=p.personId
 left join Users as s on s.personId=p.studentUniqueIdentifier

@@ -118,7 +118,7 @@ alias cldir="cd $cloverleafDir; echo -e '\n'; ls -la; pwd;"
 memoryAllocation="";
 
 export cloverleaf="node $memoryAllocation $cloverleafDir/cloverleaf.js" #this seems to work better inside of scripts than an alias
-alias cloverleaf="node $memoryAllocation my-node-script.js $cloverleafDir/cloverleaf.js" #this is good on the command line so you don't have to type $
+alias cloverleaf="node $memoryAllocation $cloverleafDir/cloverleaf.js" #this is good on the command line so you don't have to type $
 
 
 # === TEST RUNNING ===========================================

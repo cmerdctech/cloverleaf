@@ -424,6 +424,8 @@ var moduleFunction = function() {
 
 		if (cmdLineSwitches.overrideParentPath && cmdLineSwitches.argumentData.overrideParentPath) {
 			controlSpecifications = qtools.putSurePath(controlSpecifications, 'output.context.parentPath', cmdLineSwitches.argumentData.overrideParentPath + '/');
+			controlSpecifications.output.type='file';
+			controlSpecifications.output.context.fileExtension=controlSpecifications.output.context.fileExtension || '.txt';
 		}
 
 		this.requestQueue = controlSpecifications.input;
