@@ -283,6 +283,7 @@ var moduleFunction = function() {
 	var getData = function(args) {
 
 		var notificationCallback = function(err, result) {
+
 			delete self.outstandingList[args.key];
 			if (err) {
 				args.retryCount = (typeof (args.retryCount) == 'undefined') ? 3 : args.retryCount - 1;
@@ -301,7 +302,7 @@ var moduleFunction = function() {
 					}, 'a request failed');
 
 					displayMessage(err, 'FAILED for input segment:    ' + args.destination + '    from    ' + args.source + '    ' + args.retryCount + '    as user    ' + config.authParms.userName + '   (reason : ' + err.message + ')');
-					config.notifier && config.notifier.addInfo("ERROR NOT UPDATED: " + args.destination);
+					config.notifier && config.notifier.addInfo('FAILED for input segment:    ' + args.destination + '    from    ' + args.source + '    ' + args.retryCount + '    as user    ' + config.authParms.userName + '   (reason : ' + err.message + ')');
 
 					pushToFailureList(args);
 
@@ -316,9 +317,11 @@ var moduleFunction = function() {
 						path: args.path
 					}
 				});
-				config.notifier && config.notifier.addInfo("Updated: " + args.destination);
 
-				displayMessage('', 'updated input segment:    ' + args.destination + '    from ' + args.source + '    as user    ' + config.authParms.userName);
+				//note: if config.notifier.suppressNotification is true, then this notification will not be sent
+				config.notifier && config.notifier.addInfo('updated input segment:    ' + result.count + " records into " + args.destination + '    from ' + args.source + '    as user    ' + config.authParms.userName);
+
+				displayMessage('', 'updated input segment:    ' + result.count + " records into " + args.destination + '    from ' + args.source + '    as user    ' + config.authParms.userName);
 
 			}
 
@@ -397,8 +400,10 @@ var moduleFunction = function() {
 						showTarget = realPath ? realPath : result.targetDataId;
 
 					if (writeCount) {
+						config.notifier && config.notifier.addInfo('completion status: ' + showTarget + ' (' + result.summaryString + ')\n\n');
 						displayMessage(err, 'completion status: ' + showTarget + ' (' + result.summaryString + ')\n');
 					} else {
+						config.notifier && config.notifier.addInfo('completion status:  ' + showTarget + ' (' + result.summaryString + ')\n\n(exiting)\n\n');
 						displayMessage(err, 'completion status:  ' + showTarget + ' (' + result.summaryString + ') (exiting)\n');
 						wrapUp();
 					}
@@ -424,14 +429,18 @@ var moduleFunction = function() {
 
 		if (cmdLineSwitches.overrideParentPath && cmdLineSwitches.argumentData.overrideParentPath) {
 			controlSpecifications = qtools.putSurePath(controlSpecifications, 'output.context.parentPath', cmdLineSwitches.argumentData.overrideParentPath + '/');
-			controlSpecifications.output.type='file';
-			controlSpecifications.output.context.fileExtension=controlSpecifications.output.context.fileExtension || '.txt';
+			controlSpecifications.output.type = 'file';
+			controlSpecifications.output.context.fileExtension = controlSpecifications.output.context.fileExtension || '.txt';
 		}
 
 		this.requestQueue = controlSpecifications.input;
 	} else {
 		controlSpecifications = getSpecsFromCommandLine();
 		this.requestQueue = controlSpecifications.input;
+	}
+
+	if (controlSpecifications.title){
+		config.notifier && config.notifier.setTitle(controlSpecifications.title);
 	}
 
 	for (var i = 0, len = runtimeParameters.concurrentLightningPipeCalls; i < len; i++) {
@@ -447,6 +456,7 @@ util.inherits(moduleFunction, events.EventEmitter);
 module.exports = moduleFunction;
 
 new moduleFunction();
+
 
 
 
