@@ -35,9 +35,9 @@ Examples\n\n\
 clRunner jmcLocalTestData studentPlans Hancock\n\
 clRunner jmcLocalTestData studentPlans Hancock ~/Desktop/tmp\n\
 clRunner jmcSftp studentPlans Hancock\n\
-clRunner etl cloverMoodle TQ010 (remember to turn on VPN if needed)\n\
+clRunner lpSchemaEtlDb cloverMoodle TQ010 (remember to turn on VPN if needed)\n\
 clRunner jmcSftp cloverMoodle Upsala010\n\
-clRunner etl cloverMoodle TQ* ~/tmp (processes all the schools in the TQ district)\n\
+clRunner lpSchemaEtlDb cloverMoodle TQ* ~/tmp (processes all the schools in the TQ district)\n\
 clRunner jmcSftp cloverMoodle all (processes all of the schools in all the cloverMoodle districts)\n\
 \n\n\
 ------------------------------------------ \
@@ -146,6 +146,8 @@ $cloverleafCommand
 
 done
 
+echo -e "\n\nSUMMARY OF COMMANDS ========================================"
 echo -e $summaryString;
 
+echo -e "\n============================================================"
 exit $?

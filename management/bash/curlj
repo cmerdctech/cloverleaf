@@ -9,5 +9,8 @@ exit 1;
 else
 URL=$1
 fi
+user="jmcSftp";
 
-curl -i -H "username:jmcLocalTestData" -H "password:123" $URL
+echo $user;
+
+curl -i -H "username:$user" -H "password:123" $URL

@@ -2,19 +2,19 @@
 
 
 
-if [[ "j" == "$1" ]]; then
+if [[ "jl" == "$1" ]]; then
 fileName="jmcLocalTestData"
-echo "SET JMC for Plans Development";
+echo "SET JMC from localSandbox";
 cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
-elif [[ "m" == "$1" ]]; then
-fileName="cloverleafMssql"
-echo "SET MSSQL"
+elif [[ "js" == "$1" ]]; then
+fileName="jmcSftp"
+echo "SET JMC from SFTP"
 cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
-elif [[ "s" == "$1" ]]; then
-fileName="SFTP"
-echo "SET SFTP"
+elif [[ "etl" == "$1" ]]; then
+fileName="lpSchemaEtlDb"
+echo "SET LP Schema from ETL Database Server"
 cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
 elif [[ "l" == "$1" ]]; then
@@ -22,21 +22,14 @@ fileName="localSandbox"
 echo "SET localSandbox"
 cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
 
-
-elif [[ "r" == "$1" ]]; then
-fileName="mattRandom2Mssql"
-echo "SET mattRandom2Mssql"
-cp $CLOVERLEAF_BASE_PATH/config/profile/otherCloverleafIdentities/$fileName.js $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js
-
 else
 echo "NO CHANGE";
 cat $CLOVERLEAF_BASE_PATH/config/profile/cloverleaf.js | grep "userName:";
 echo -e " \n\
 try: \n\
-j - jmcLocalTestData \n\
-m - cloverleafMssql \n\
-r - mattRandom2Mssql \n\
-s - SFTP \n\
+jl - jmcLocalTestData \n\
+js - SET JMC from SFTP
+etl - lpSchemaEtlDb \n\
 l - localSandbox \n\
 ";
 fi
