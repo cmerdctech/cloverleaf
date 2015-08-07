@@ -13,7 +13,7 @@ if [[ ! $1 || "-h" == "$1"  || "--help" == "$1" ]]; then
 echo -e "------------------------------------------ \
 \n\ncloverRunner - executes Cloverleaf with supplied specifications. \
 \n\n\
-\n\ncloverRunner profileName parameterFolderName [all|parameterFileName] [outputPath] \
+\n\ncloverRunner profileName parameterFolderName [prod|all|parameterFileName] [outputPath] \
 \n\n\
 \n\n\
 \tprofileName - configuration file, mainly chooses LP login name, mostly to choose data source \
